@@ -1,0 +1,33 @@
+Crafting process (rule 10):
+
+Step 1 (1st mod): get an ilvl 75-79 (75 is the best) Anarchic Spiritblade, and get your 1st influence mod.
+
+Two options:
+
+randomise influence it to shaper, and use ~100 ilvl83 Wolf beasts to craft it with Socketed 40% more. (Make sure you can make it to be a magic base to imprint before your beasts craft. details omitted)
+
+randomise influence it to elder, and use ~500 ilvl80 Wolf beasts to craft it with lvl20 Ruthless. (Make sure..)
+
+Edit: just add, making it a magic base is for imprinting it by craicic chimeral beasts craft so that if we failed the 3rd step, we can simply revert it back to 1-mod status.
+
+Step 2 (2nd mod): prepare dozens of awaken bases and do your Awaken. If you do option 1, for every base you need ~100 Jagged fossils craft to let your bases have lvl20 Ruthless (and possibly 2 exa each to remove other suffix influence mods). If you do option 2, every base you only need several fossil crafts to Socketed 40% more. And then awaken your base on your Anarchic Spiritblade.
+
+(You can choose to buy the lvl20 ruthless bases but I buy out from trade and have to fossils crafts most bases myself)
+
+Step 3 (3rd mod): influence crafts to get lvl20 WED support. 3 Options:
+
+Augment influence (need your suffix full) - 1/19 chance
+
+remove non-influence add influence: let your item have full suffix also bench the 3rd prefix to be "suffix cannot be changed" to ensure the removal works only on it. (you need this bench unless all your suffixes are influenced mods) - 1/19 chance
+
+Reforge an item with an Influence mod. Bench "Prefix cannot be changed" and do "reforge influence". These are much more common crafts (compared with the above 2 lol) but it has quite a lower chance to hit. (in theory needs dozens of, should be a bit less than 80 times)
+
+I was mostly using reforge influence as there are only several aug or non-influence crafts in whole TFT discord every day. Once failed with prefix filled and also failed your annul, go back to step 2. (Edit: going back step 2 means using the imprint orb and then redo the step 2)
+
+Step 4 (4th mod): simply get your lvl20 multistrike support with prefix cannot be changed + reforge speed. (btw, you can use prefix cannot be changed + more likely reforge to save some). - usually takes 10+ tries.
+
+Step 5 (5th mod): get either critical strike support or critical strike chance support. I do by firstly exalt (with a bench mod you like lol). If it got a non-influenced mod, do "remove non-influence to influence". If it got an influence mod, do prefix cannot be changed and annul. This step is ~1/14 chance to hit (not including annul save). If failed your annul as well, go back to Step 5.
+
+Step 6 (6th mod): close your eye and aug-influence to get your 6th mod in destiny. 1/26 chance to hit another critical support mod. If failed your hit, vaal it ^^ or do reforge keep prefix and go back step 4.
+
+(My crafting process is mostly targetting for these 6 mods. You can choose more other good influence supports especially suffix which makes you have a higher hit chance. )
