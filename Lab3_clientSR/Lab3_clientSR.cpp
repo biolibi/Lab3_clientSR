@@ -138,6 +138,11 @@ int main(int argc, char** argv)
         //si choix == 1, cela veut dire qu'on envoie une requête au serveur pour voir les fichiers disponible
         if (choix == 1)
         {
+
+            // demander le directory du serveur
+
+
+
             cout << "Envoie une requete pour les fichier" << "\n";
             send(connectSocket, "1&&", 3, 0);
            // memset(recvBuffer, 0, sizeof recvBuffer);
@@ -150,9 +155,12 @@ int main(int argc, char** argv)
             int nBfichier = stoi(tempo);
             memset(recvBuffer, 0, sizeof recvBuffer);
             // recoit les nom de fichiers disponible
-            cout << "Voici une liste de fichier disponible:" << "\n";
+            cout << "Voici une liste de fichier disponible dans le directory:" << "\n";
             
                 
+
+
+
                    recv(connectSocket, recvBuffer, 2048, 0);
                 
                     string tempo1(recvBuffer, strlen(recvBuffer));
@@ -213,24 +221,30 @@ int main(int argc, char** argv)
 
             cout << "Envoie d'une commande pour l'ordinateur cible" << "\n";
             cout << "Quelle est la commande?" << "\n";
-            cin >> commandeAEnvoyer;
+            cin.ignore();
+            getline(std::cin,commandeAEnvoyer);
 
 
 
             tempoCommandeAEnvoyer << "2&&" + commandeAEnvoyer;
             commandeAEnvoyer = tempoCommandeAEnvoyer.str();
 
+            cout << "On est good" << "\n";
             send(connectSocket, commandeAEnvoyer.c_str(), strlen(commandeAEnvoyer.c_str()), 0);
 
-
+            cout << "On l'est encore" << "\n";
 
             //<< "La commande a été execute en voici le resultat\n"
 
-            // on recoit la taille du fichier
+            // on recoit la taille du message
           
-            // recupère la taille du fichier qui sera envoyer
+            // recupère la taille du message
             recv(connectSocket, recvBuffer, 512, 0);
+
+            cout << "On a rien recu" << "\n";
             string taille(recvBuffer, strlen(recvBuffer));
+
+            cout << "ok" << "\n";
 
             bufferPasFixe2 = new char[stoi(taille)];
             memset(recvBuffer, 0, sizeof recvBuffer);
