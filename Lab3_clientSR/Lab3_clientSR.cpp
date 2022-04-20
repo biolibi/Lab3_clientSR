@@ -41,6 +41,7 @@ int main(int argc, char** argv)
     char sendBuffer[512];
     char recvBuffer[512];
     char* bufferPasFixe;
+    char* bufferPasFixe2;
     vector<string> vecteurPath;
 
     // lorsqu'on lance le programme 4 arguments sont pris en compte
@@ -125,12 +126,13 @@ int main(int argc, char** argv)
     }
 
     int choix = 0;
-    while (choix != 2)
+    while (choix != 3)
     {
         int fichierATelecharge = 0;
         cout << "Menu" << "\n";
         cout << "1) Afficher la liste de fichier du serveur" << "\n";
-        cout << "2) Se deconnecter" << "\n";
+        cout << "2) Envoyer une commande" << "\n";
+        cout << "3) Se deconnecter" << "\n";
         choix = verification();
 
         //si choix == 1, cela veut dire qu'on envoie une requête au serveur pour voir les fichiers disponible
@@ -187,6 +189,8 @@ int main(int argc, char** argv)
             bufferPasFixe = new char[stoi(taille)];
             memset(recvBuffer, 0, sizeof recvBuffer);
 
+        
+
             
             // recoit le fichier (maximum 1GB) pour l'implentation actuel
             recv(connectSocket, bufferPasFixe, stoi(taille), 0);
@@ -200,6 +204,61 @@ int main(int argc, char** argv)
             file.write(fichierEcrire, stoi(taille));
             file.close();
         }
+
+        if (choix == 2)
+        {
+            string commandeAEnvoyer;
+            stringstream tempoCommandeAEnvoyer;
+
+
+            cout << "Envoie d'une commande pour l'ordinateur cible" << "\n";
+            cout << "Quelle est la commande?" << "\n";
+            cin >> commandeAEnvoyer;
+
+
+
+            tempoCommandeAEnvoyer << "2&&" + commandeAEnvoyer;
+            commandeAEnvoyer = tempoCommandeAEnvoyer.str();
+
+            send(connectSocket, commandeAEnvoyer.c_str(), strlen(commandeAEnvoyer.c_str()), 0);
+
+
+
+            //<< "La commande a été execute en voici le resultat\n"
+
+            // on recoit la taille du fichier
+          
+            // recupère la taille du fichier qui sera envoyer
+            recv(connectSocket, recvBuffer, 512, 0);
+            string taille(recvBuffer, strlen(recvBuffer));
+
+            bufferPasFixe2 = new char[stoi(taille)];
+            memset(recvBuffer, 0, sizeof recvBuffer);
+
+
+            // recoit le fichier (maximum 1GB) pour l'implentation actuel
+            recv(connectSocket, bufferPasFixe2, stoi(taille), 0);
+            const char* commandeExecuteString = bufferPasFixe2;
+
+
+            //on peut pas convertir de buffer à string directement
+            string test = string(commandeExecuteString, stoi(taille));
+           
+            cout << test;
+
+
+
+          /*  ifstream ifs("temp.txt");
+            string ret{ istreambuf_iterator<char>(ifs), istreambuf_iterator<char>() };
+            ifs.close(); // must close the inout stream so the file can be cleaned up
+            if (remove("temp.txt") != 0) {
+             perror("Error deleting temporary file");
+             }*/
+
+
+
+        }
+
     }
 
     //deconnection du serveur
