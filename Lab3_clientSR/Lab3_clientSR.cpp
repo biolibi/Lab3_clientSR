@@ -18,6 +18,16 @@
 using namespace std;
 
 
+wstring RépertoireCourant()//code trouvé à :https://stackoverflow.com/questions/875249/how-to-get-current-directory
+{
+    TCHAR buffer[MAX_PATH] = { 0 };
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    wstring::size_type pos = wstring(buffer).find_last_of(L"\\/");
+    return wstring(buffer).substr(0, pos);
+}
+
+
+
 int verification() //methode pour verifier si la prochaine entré est un int
 {
     int unNombre;
@@ -43,6 +53,8 @@ int main(int argc, char** argv)
     char* bufferPasFixe;
     char* bufferPasFixe2;
     vector<string> vecteurPath;
+    vector<string> vecteurPathExe;
+
 
     // lorsqu'on lance le programme 4 arguments sont pris en compte
 
@@ -161,7 +173,15 @@ int main(int argc, char** argv)
 
 
 
-                   recv(connectSocket, recvBuffer, 2048, 0);
+            recv(connectSocket, recvBuffer, 2048, 0);
+
+            string tailleTexteDirectory(recvBuffer,strlen(recvBuffer));
+            
+
+            memset(recvBuffer, 0, sizeof recvBuffer);
+
+
+                   recv(connectSocket, recvBuffer, stoi(tailleTexteDirectory), 0);
                 
                     string tempo1(recvBuffer, strlen(recvBuffer));
                     replace(tempo1.begin(), tempo1.end(), '\\', '/');
@@ -174,6 +194,10 @@ int main(int argc, char** argv)
                         vecteurPath.push_back(restantBuffer.substr(0, restantBuffer.find_first_of("&&")));
                         tempo1 = tempo1.substr(tempo1.find("&&") + 2);
                         cout << vecteurPath.at(i) << "\n";
+
+                        vecteurPathExe.push_back(vecteurPath.at(i).substr(vecteurPath.at(i).find_last_of('/')+1));
+
+
                        
                     }
 
@@ -184,6 +208,7 @@ int main(int argc, char** argv)
             {
             fichierATelecharge = verification();
             }
+
             tempo = to_string(fichierATelecharge) + "&&";
             //donc on envoie le numero du fichier choisis au server
             send(connectSocket, tempo.c_str(), strlen(tempo.c_str()), 0);
@@ -206,9 +231,21 @@ int main(int argc, char** argv)
 
             cout << "Le fichier est en cours d'ecriture..." << "\n";
 
-            tempo = vecteurPath.at(fichierATelecharge-1).substr(vecteurPath.at(fichierATelecharge - 1).rfind("Fichier"), vecteurPath.at(fichierATelecharge - 1).size());
+            stringstream directoryPath;
+            wstring temp = RépertoireCourant();
+            string tempp(temp.begin(), temp.end());
+            directoryPath << tempp << "\\Fichier\\" << vecteurPathExe.at(fichierATelecharge-1);
 
-            ofstream file(tempo, ios::out |std::ofstream::binary);
+            string tempoDirectoryPath = directoryPath.str();
+            replace(tempoDirectoryPath.begin(), tempoDirectoryPath.end(), '\\', '/');
+
+
+            tempo = directoryPath.str();
+
+            ofstream file;
+            //ofstream file(tempo, ios::out |std::ofstream::binary);
+            file.open(tempoDirectoryPath, std::ios::binary | std::ios::out);
+
             file.write(fichierEcrire, stoi(taille));
             file.close();
         }
