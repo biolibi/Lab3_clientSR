@@ -48,7 +48,6 @@ int main(int argc, char** argv)
     SOCKET connectionS;
     struct addrinfo *ptr = NULL, hints, *pResult = NULL;
 
-    char sendBuffer[512];
     char recvBuffer[512];
     char* bufferPasFixe;
     char* bufferPasFixe2;
@@ -138,20 +137,25 @@ int main(int argc, char** argv)
     }
 
     int choix = 0;
-    while (choix != 3)
+    while (choix != 4)
     {
         int fichierATelecharge = 0;
         cout << "Menu" << "\n";
-        cout << "1) Afficher la liste de fichier du serveur" << "\n";
+        cout << "1) downloader un fichier" << "\n";
         cout << "2) Envoyer une commande" << "\n";
-        cout << "3) Se deconnecter" << "\n";
+        cout << "3) uploader un fichier" << "\n";
+        cout << "4) Se deconnecter" << "\n";
         choix = verification();
+
 
         //si choix == 1, cela veut dire qu'on envoie une requête au serveur pour voir les fichiers disponible
         if (choix == 1)
         {
 
             // demander le directory du serveur
+
+
+
 
 
 
@@ -169,12 +173,25 @@ int main(int argc, char** argv)
             // recoit les nom de fichiers disponible
             cout << "Voici une liste de fichier disponible dans le directory:" << "\n";
             
-                
+            
+       
+            try
+            {
+                recv(connectSocket, recvBuffer, 512, 0);
+                int test = WSAGetLastError();
+                cout << test;
+            }
+          
+            catch (const std::exception& e) // reference to the base of a polymorphic object
+            {
+                std::cout << e.what(); // information from length_error printed
+            }
 
 
+            // taille du fichier en bit
+            //recv(connectSocket, recvBuffer, 512, 0);
 
-            recv(connectSocket, recvBuffer, 2048, 0);
-
+            cout << "test" << "\n";
             string tailleTexteDirectory(recvBuffer,strlen(recvBuffer));
             
 
@@ -252,6 +269,10 @@ int main(int argc, char** argv)
 
         if (choix == 2)
         {
+
+            send(connectSocket, "2&&", 3, 0);
+            memset(recvBuffer, 0, sizeof recvBuffer);
+
             string commandeAEnvoyer;
             stringstream tempoCommandeAEnvoyer;
 
@@ -263,10 +284,18 @@ int main(int argc, char** argv)
 
 
 
-            tempoCommandeAEnvoyer << "2&&" + commandeAEnvoyer;
+            tempoCommandeAEnvoyer << commandeAEnvoyer;
             commandeAEnvoyer = tempoCommandeAEnvoyer.str();
 
+            int tailleCommande = commandeAEnvoyer.size();
+
             cout << "On est good" << "\n";
+
+
+            send(connectSocket, (char*)&tailleCommande, 512, 0);
+
+
+
             send(connectSocket, commandeAEnvoyer.c_str(), strlen(commandeAEnvoyer.c_str()), 0);
 
             cout << "On l'est encore" << "\n";
@@ -286,7 +315,7 @@ int main(int argc, char** argv)
             bufferPasFixe2 = new char[stoi(taille)];
             memset(recvBuffer, 0, sizeof recvBuffer);
 
-
+            
             // recoit le fichier (maximum 1GB) pour l'implentation actuel
             recv(connectSocket, bufferPasFixe2, stoi(taille), 0);
             const char* commandeExecuteString = bufferPasFixe2;
@@ -310,10 +339,19 @@ int main(int argc, char** argv)
 
         }
 
+
+        //ici on envoie un fichier
+        if (choix == 3)
+        {
+
+        }
+
+
+
     }
 
     //deconnection du serveur
-    send(connectSocket, "2&&", 3, 0);
+    send(connectSocket, "4&&", 3, 0);
     cout << "deconnection reussi!\n";
     closesocket(connectSocket);
     WSACleanup();
