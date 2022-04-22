@@ -313,6 +313,7 @@ int main(int argc, char** argv)
             cout << "ok" << "\n";
 
             bufferPasFixe2 = new char[stoi(taille)];
+
             memset(recvBuffer, 0, sizeof recvBuffer);
 
             
